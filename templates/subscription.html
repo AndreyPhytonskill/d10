@@ -1,0 +1,26 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} Category {% end block title %}
+
+{% block content %}
+<br>
+<br>
+<h3> Оформить подписку на публикации </h3>
+<hr>
+
+<p class="editContent"> Подписавшись на нашу рассылку, вы всегда будете
+    получать последние новости и обновления от нас.</p>
+<br>
+<br>
+<form method="POST">
+    {% csrf_token %}
+    {{ form|crispy }} <!-- Теперь нам нужна только готовая форма и кнопка -->
+    <br>
+    <br>
+    <input type="submit" value="Подписаться">
+</form>
+{% end block content %}

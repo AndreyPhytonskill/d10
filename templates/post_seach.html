@@ -1,0 +1,79 @@
+<!--  наследуемся от шаблона default.html -->
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+{% load custom_tags %}
+
+{% block title %}
+Posts
+{% endblock title %}
+
+<!-- В контенте на странице выводим форму поиска постов. -->
+{% block content %}
+
+{# Форма фильтра 'PostFilter' #}
+    <form action="" method="GET">
+        {{ search_filter.form.as_p }}
+        <input type="submit" value="Найти" class="btn btn-success"/>
+        <a class="btn btn-secondary" role="button" href="{{ request.path }}">Сбросить фильтры</a>
+    </form>
+
+<div class="col-lg-12 text-center">
+    <h1>Все посты</h1>
+    <h3>Всего постов: {{ news|length }}</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Заголовок</th>
+            <th scope="col">Дата публикации</th>
+            <th scope="col">Автор</th>
+            <th scope="col">Текст</th>
+            <th scope="col">Ссылка на статью</th>
+            <th scope="col">Редактировать</th>
+            <th scope="col">Удалить</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for post in news %}
+        <tr>
+            <th scope="row">{{ post.title }}</th>
+            <td>{{ post.time }}</td>
+            <td>{{ post.author }}</td>
+            <td>{{ post.text | truncatewords:20 | censor}}</td>
+            <td><a class="btn btn-primary btn-sm" href="/news/{{ post.pk }}">Читать</a></td>
+            <td><a class="btn btn-primary btn-sm" href="/news/news/{{ post.pk }}/edit/">Редактировать</a></td>
+            <td><a class="btn btn-primary btn-sm" href="/news/news/{{ post.pk }}/delete/">Удалить</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{# Пагинация на странице #}
+<hr class="mt-4">
+
+<div class="row">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?{% url_replace page=1 %}">1</a></li>
+                {% if page_obj.previous_page_number != 1 %}
+                   <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                   <li class="page-item"><a class="page-link" href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a></li>
+               {% endif %}
+            {% endif %}
+
+            <li class="page-item active" aria-current="page"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
+
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a></li>
+               {% if paginator.num_pages != page_obj.next_page_number %}
+                   <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                   <li class="page-item"><a class="page-link" href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a></li>
+               {% endif %}
+                {% endif %}
+        </ul>
+    </nav>
+</div>
+
+{% endblock content %}

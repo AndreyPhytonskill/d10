@@ -1,0 +1,38 @@
+{% load custom_filters %} <!-- не забываем заранее загружать наши фильтры! -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Digest</title>
+</head>
+<body>
+    <p>Привет!</p>
+    <p>Еженедельная подборка публикаций в выбранной категории "{{ category }}".</p>
+    <hr>
+    <br>
+    <br>
+    {% if digest %}
+        <table>
+        {% for post in digest %}
+            <tr>
+                <td>
+                    <a href="{{ post.get_absolute_url }}">{{ post.title|censor }} </a>
+                </td>
+                <td>
+                    {{ post.text|truncatechars:20|censor }}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <h2>Новостей и публикаций нет!</h2>
+    {% endif %}
+<br>
+<hr>
+<br>
+<br>
+<p><h4>До встречи на <a href="http://127.0.0.1:8000/news/">News Portal</a> и хорошего дня!</h4></p>
+<br>
+<br>
+</body>
+</html>

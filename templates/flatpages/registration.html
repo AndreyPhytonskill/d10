@@ -1,0 +1,33 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+{{ flatpage.title }}
+{% endblock title %}
+
+{% block content %}
+    <br>
+    <h2>{{ flatpage.title }}</h2>
+    <hr>
+    <br>
+    <h3>Registration required</h3>
+    <br>
+<hr>
+<br>
+{% if is_not_authors %}
+<button> <a href="/sign/upgrade/"> Стать автором!</a> </button>
+{% endif %}
+<br>
+<br>
+<button> <a href="/sign/logout/">Выйти</a> </button>
+
+<button> <a href="/"> Регистрация</a> </button>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<i>{{ flatpage.content }}</i>
+{% endblock content %}

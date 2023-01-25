@@ -1,0 +1,22 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %} <!-- не забываем заранее загружать наши фильтры! -->
+
+{% block title %} Category {% endblock title %}
+
+{% block content %}
+<br>
+<br>
+<h3>Выберите категорию для подписки на новые публикации</h3>
+<hr>
+<br>
+<table>
+    {% for category in post_category %}
+    <tr>
+        <td>
+            <h4><a href="{% url 'subscribe_category' category.id %}">{{ category.name_cat }} </a></h4>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}
